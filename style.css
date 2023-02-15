@@ -3,3 +3,95 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  font-size: 62.5%;
+  --ff-primary: 'Roboto', sans-serif;
+  --ff-secondary: 'Roboto Mono', monospace;
+  --fs-inputSearch: clamp(1.0rem, 0.5rem + 2vw, 1.6rem);
+  --fs-favoriteButton: 1.4rem;
+  --fs-table: 2.0rem;
+  --fs-emptyTable: 4.0rem;
+
+  --bg-inputSearch: #06181C;
+  --fc-inputSearch: #7C7C8A;
+  --bg-favoriteButton: #065E7C;
+  --fc-favoriteButton: #fff;
+  --bg-thead: #092D38;
+  --fc-table: #E1E1E6;
+  --bg-someRows: #06181C;
+  --color-borderTableAndScroll: #4A808C;
+
+  --width-userImg: clamp(4.0rem, 3.0rem + 5vw, 5.6rem);
+  /* --height-userImg: clamp(4.0rem, 4.0rem + 5vw, 5.6rem); */
+  --width-logo: clamp(10.0rem, 10.0rem + 5vw, 18.6rem);
+  --padding-inputSearch: clamp(1.0rem, 0.5rem + 2vw, 1.6rem);
+  --paddingVert-favoriteButton: clamp(0.4rem, 0.5rem + 1vw, 1.2rem);
+  --paddingHor-favoriteButton: clamp(0.8rem, 1.0rem + 2vw, 3.2rem);
+}
+
+body {
+  background: #000;
+  font-family: var(--ff-primary);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--fc-table);
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.0rem;
+}
+
+header .input-space {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0.8rem;
+}
+
+header .input-space #input-search {
+  background: var(--bg-inputSearch);
+  border: none;
+  border-radius: 0.5rem;
+  padding: var(--padding-inputSearch);
+  color: var(--fc-inputSearch);
+  font-family: var(--ff-primary);
+  font-size: var(--fs-inputSearch);
+  width: 100%;
+}
+
+header .input-space .favorite-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  background: var(--bg-favoriteButton);
+  border: none;
+  border-radius: 0.5rem;
+  font-family: var(--ff-primary);
+  font-size: var(--fs-favoriteButton);
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--fc-favoriteButton);
+  padding: var(--paddingVert-favoriteButton) var(--paddingHor-favoriteButton);
+  width: 100%;
+}
+
+.logo img {
+  width: var(--width-logo);
+}
+
+.input-space label {
+  display: none;
+}
+
+.userImg {
+  width: var(--width-userImg);
+}
