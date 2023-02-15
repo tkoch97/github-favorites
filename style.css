@@ -10,9 +10,9 @@
   --ff-secondary: 'Roboto Mono', monospace;
   --fs-inputSearch: clamp(1.0rem, 0.5rem + 2vw, 1.6rem);
   --fs-favoriteButton: 1.4rem;
-  --fs-table: 2.0rem;
+  --fs-table: clamp(.4rem, .7rem + .5vw, 2.0rem);
   --fs-emptyTable: 4.0rem;
-
+  
   --bg-inputSearch: #06181C;
   --fc-inputSearch: #7C7C8A;
   --bg-favoriteButton: #065E7C;
@@ -21,34 +21,59 @@
   --fc-table: #E1E1E6;
   --bg-someRows: #06181C;
   --color-borderTableAndScroll: #4A808C;
-
-  --width-userImg: clamp(4.0rem, 3.0rem + 5vw, 5.6rem);
-  /* --height-userImg: clamp(4.0rem, 4.0rem + 5vw, 5.6rem); */
+  
+  --width-userImg: clamp(3.0rem, 3.0rem + 4vw, 5.6rem);
   --width-logo: clamp(10.0rem, 10.0rem + 5vw, 18.6rem);
   --padding-inputSearch: clamp(1.0rem, 0.5rem + 2vw, 1.6rem);
   --paddingVert-favoriteButton: clamp(0.4rem, 0.5rem + 1vw, 1.2rem);
-  --paddingHor-favoriteButton: clamp(0.8rem, 1.0rem + 2vw, 3.2rem);
+  --paddingHor-favoriteButton: clamp(0.8rem, 1.0rem + 1vw, 3.2rem);
+  --paddingVert-table: clamp(0.4rem, 0.5rem + 1vw, 1.6rem);
+  --paddingHor-table: clamp(0.8rem, 1.0rem + 1vw, 4.0rem);
 }
 
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 body {
-  background: #000;
-  font-family: var(--ff-primary);
-  width: 100vw;
+  background: linear-gradient(189.96deg, #104656 -0.24%, #022945 100.24%);
+  background-size: 200% 200%;
+  animation: gradient 10s ease infinite;
+  display: grid;
+  justify-items: center;
+  align-content: space-between;
   height: 100vh;
+  font-family: var(--ff-primary);
+  color: var(--fc-table);
+}
+
+#app {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  color: var(--fc-table);
+  gap: 5.0rem;
+  max-width: 112.0rem;
+  padding: 5.0rem 1.5rem;
 }
 
 header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.0rem;
+  gap: 2.0rem;
 }
 
-header .input-space {
+.logo img {
+  width: var(--width-logo);
+}
+
+.input-space {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,7 +92,7 @@ header .input-space #input-search {
   width: 100%;
 }
 
-header .input-space .favorite-button {
+.favorite-button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,16 +107,117 @@ header .input-space .favorite-button {
   color: var(--fc-favoriteButton);
   padding: var(--paddingVert-favoriteButton) var(--paddingHor-favoriteButton);
   width: 100%;
+  transition: all .5s;
+  cursor: pointer;
 }
 
-.logo img {
-  width: var(--width-logo);
+.favorite-button:hover {
+  background: #fff;
+  color: var(--bg-favoriteButton)
 }
 
-.input-space label {
-  display: none;
+.favorite-button:hover svg path {
+  fill: var(--bg-favoriteButton);
+  transition: all .5s;
+}
+
+.sr-only {  /* classe feita para esconder a label de forma que o leitor de tela aonda o encontre*/
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+table {
+  border-collapse: collapse;
+  font-size: var(--fs-table);
+  box-shadow: 0 0 .4rem .2rem rgb(0, 0, 0, 0.3)
+}
+
+thead th{
+  background: var(--bg-thead);
+  text-align: left;
+  padding: var(--paddingVert-table) var(--paddingHor-table);
+}
+
+thead th:first-child {
+  border-top-left-radius: .5rem;
+}
+
+thead th:last-child {
+  border-top-right-radius: .5rem;
+}
+
+tbody .user {
+  display: flex;
+  gap: clamp(.5rem, .5rem + 1vw, 1.6rem);
+  align-items: center;
 }
 
 .userImg {
   width: var(--width-userImg);
+  border-radius: 50%;
+}
+a {
+  text-decoration: none;
+  color: var(--fc-table);
+}
+
+tbody .user a p {
+  font-weight: bold;
+}
+
+tbody td{
+  text-align: left;
+  padding: var(--paddingVert-table) var(--paddingHor-table);
+}
+
+tbody td:last-child {
+  text-align: center;
+}
+
+tbody tr:hover {
+  border: 1px solid var(--color-borderTableAndScroll);
+}
+
+tbody tr:nth-child(even) {
+  background: var(--bg-someRows);
+  border-radius: 0rem 0rem .5rem .5rem;
+}
+
+tbody tr:nth-child(odd) {
+  background: rgba(6, 22, 27, 0.5);
+}
+
+.trash-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.trash-button:hover svg g {
+  fill: rgb(141, 37, 37);
+  transition: all .5s;
+}
+
+footer {
+  padding: 2.0rem;
+}
+
+@media (min-width: 650px){
+  #app {
+    padding-top: 12.0rem;
+    
+  }
+  header {
+    flex-direction: row;
+    gap: clamp(10.0rem, 10.0rem + 5vw, 29.3rem);
+  }
+  .input-space {
+    flex-direction: row;
+  }
 }
