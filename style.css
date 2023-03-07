@@ -203,6 +203,10 @@ footer {
   padding: 2.0rem;
 }
 
+footer img {
+  width: 4.0rem;
+}
+
 @media (min-width: 650px){
   #app {
     padding-top: 12.0rem;
