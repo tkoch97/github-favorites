@@ -5,31 +5,25 @@ export class Favorites {
     this.root = document.querySelector(root)
     this.loadData()
   }
+
+  //No loadData estou aribuindo ao entries o valor da key '@github-favorites' que deve estar no localStorage. Caso o localStorage esteja vazio, o valor será de uma array vazia
   
   loadData() {
-    this.entries = [
-      {
-        login:'tkoch97',
-        name:'Thiago Koch',
-        public_repos: '33',
-        followers: '26'
-      },
-      {
-        login:'birobirobiro',
-        name:'João Inácio Neto',
-        public_repos: '89',
-        followers: '1700'
-      }
-    ]
+    this.entries = JSON.parse(localStorage.getItem('@github-favorites:')) || []
   }
 
-  delete(user) {
-    const filteredEntries = this.entries.filter(entry => entry.login !== user.login)
+//Filter é uma Higher-order function (funções que usamos muito) 
+//que permite que filtremos uma das entradas da array, se colocarmos um retorno 'false', eliminamos do array, se o retorno for 'true', adicionamos no array.
+//No caso, se o entry.login for diferente do user.login o retorno vai ser verdadeiro, enão manen-se o dado, caso contrário, o dado é retirado.
 
-    console.log(filteredEntries)
+  delete(user) {
+    const filteredEntries = this.entries.filter(entry => entry.login !== user.login) 
+    this.entries = filteredEntries
+    this.update()
   }
 
 }
+// O 'this.entries.filter' trabalha com a lei da imutabilidade, que retorna um novo array e não faz a alteração na array antiga. Ele troca uma pela outra.
 
 // Criar outra classe para criar a visualização e os eventos do HTML
 
@@ -68,7 +62,7 @@ export class FavoritesView extends Favorites {
           this.delete(user)
         }
       }
-      this.tbody.append(row)
+      this.tbody.append(row) //append é um elemento da DOM e significa 'acrescentar'
     })
   }
 
@@ -76,7 +70,6 @@ export class FavoritesView extends Favorites {
     const tr = document.createElement('tr') // variável criada para criar uma linha (o elemento tr) no documento de HTML
 
     tr.innerHTML = `
-      <tr>
         <td class="user">
           <img class="userImg" src="https://github.com/tkoch97.png" alt="Imagem de tkoch97">
           <a href="https://github.com/tkoch97" target="_blank">
@@ -96,7 +89,6 @@ export class FavoritesView extends Favorites {
             </svg>
           </button>
         </td>
-      </tr>
     `
     return tr
   }
