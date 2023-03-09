@@ -1,9 +1,33 @@
+// Criar uma classe para chamar os dados da API do Github
+
+export class GithubUser {
+  static search(username) {
+    const endpoint = `https://api.github.com/users/${username}`
+
+    return fetch(endpoint)
+    .then(data => data.json())
+    .then((data) => {
+      const {login, name, public_repos, followers} = data
+
+      return {
+        login,
+        name,
+        public_repos,
+        followers
+      }
+    })
+  }
+}
+
 // Criar uma classe para conter a lógica dos dados e como os dados serão estruturados
 
 export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root)
     this.loadData()
+
+    GithubUser.search('tkoch97')
+    .then(user => console.log(user))
   }
 
   //No loadData estou aribuindo ao entries o valor da key '@github-favorites' que deve estar no localStorage. Caso o localStorage esteja vazio, o valor será de uma array vazia
