@@ -149,6 +149,7 @@ thead th:first-child {
 
 thead th:last-child {
   border-top-right-radius: .5rem;
+  text-align: center;
 }
 
 tbody .user {

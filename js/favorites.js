@@ -25,29 +25,50 @@ export class Favorites {
   constructor(root) {
     this.root = document.querySelector(root)
     this.loadData()
-
-    GithubUser.search('tkoch97')
-    .then(user => console.log(user))
   }
 
-  //No loadData estou aribuindo ao entries o valor da key '@github-favorites' que deve estar no localStorage. Caso o localStorage esteja vazio, o valor será de uma array vazia
+//No loadData estou aribuindo ao entries o valor da key '@github-favorites' que deve estar no localStorage. Caso o localStorage esteja vazio, o valor será de uma array vazia
   
   loadData() {
     this.entries = JSON.parse(localStorage.getItem('@github-favorites:')) || []
   }
 
+  save() {
+    localStorage.setItem('@github-favorites:', JSON.stringify(this.entries)) //salvando as entradas no localStorage
+  }
+
+// Criar uma função assíncrona para adicionar um usuário favorito a lista
+
+  async addFavorite(username) {
+    try {
+      const user = await GithubUser.search(username)
+      if(user.login === undefined) {
+        throw new Error ('Usuário não encontrado.')
+      }
+
+      this.entries = [user, ...this.entries] // seguindo a lei da imutabilidade, estamos adicionando um novo user nas entradas(entries) que nós temos, criando um novo array.
+      this.update()
+      this.save()
+
+    } catch(error) {
+      alert(error.message)
+    }
+  }
+
 //Filter é uma Higher-order function (funções que usamos muito) 
 //que permite que filtremos uma das entradas da array, se colocarmos um retorno 'false', eliminamos do array, se o retorno for 'true', adicionamos no array.
 //No caso, se o entry.login for diferente do user.login o retorno vai ser verdadeiro, enão manen-se o dado, caso contrário, o dado é retirado.
+// O 'this.entries.filter' trabalha com a lei da imutabilidade, que retorna um novo array e não faz a alteração na array antiga. Ele troca uma pela outra.
 
   delete(user) {
     const filteredEntries = this.entries.filter(entry => entry.login !== user.login) 
     this.entries = filteredEntries
     this.update()
+    this.save()
   }
 
 }
-// O 'this.entries.filter' trabalha com a lei da imutabilidade, que retorna um novo array e não faz a alteração na array antiga. Ele troca uma pela outra.
+
 
 // Criar outra classe para criar a visualização e os eventos do HTML
 
@@ -67,6 +88,16 @@ export class FavoritesView extends Favorites {
     this.tbody = this.root.querySelector('table tbody')
 
     this.update()
+    this.onAddFavorite()
+  }
+
+  onAddFavorite() {
+    const favoriteButton = this.root.querySelector('.input-space .favorite-button')
+    favoriteButton.onclick = () => {
+      const { value } = this.root.querySelector('.input-space #input-search')
+
+      this.addFavorite(value)
+    }
   }
 
   update() {
