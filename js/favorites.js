@@ -1,25 +1,6 @@
-// Criar uma classe para chamar os dados da API do Github
+import { GithubUser } from "./githubUser.js"
 
-export class GithubUser {
-  static search(username) {
-    const endpoint = `https://api.github.com/users/${username}`
-
-    return fetch(endpoint)
-    .then(data => data.json())
-    .then((data) => {
-      const {login, name, public_repos, followers} = data
-
-      return {
-        login,
-        name,
-        public_repos,
-        followers
-      }
-    })
-  }
-}
-
-// Criar uma classe para conter a lógica dos dados e como os dados serão estruturados
+// Criar uma classe para trabalhar com a lógica dos dados e como os dados serão estruturados
 
 export class Favorites {
   constructor(root) {
@@ -41,7 +22,14 @@ export class Favorites {
 
   async addFavorite(username) {
     try {
+      const userExists = this.entries.find(entry => entry.login === username)
+  
+      if(userExists) {
+        throw new Error ('Usuário já cadastrado.')
+      }
+
       const user = await GithubUser.search(username)
+
       if(user.login === undefined) {
         throw new Error ('Usuário não encontrado.')
       }

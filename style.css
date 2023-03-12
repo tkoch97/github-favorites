@@ -11,7 +11,7 @@
   --fs-inputSearch: clamp(1.0rem, 0.5rem + 2vw, 1.6rem);
   --fs-favoriteButton: 1.4rem;
   --fs-table: clamp(.4rem, .7rem + .5vw, 2.0rem);
-  --fs-emptyTable: 4.0rem;
+  --fs-emptyTable: clamp(0.4rem, 1.7rem + .5vw, 4.0rem);
   
   --bg-inputSearch: #06181C;
   --fc-inputSearch: #7C7C8A;
@@ -31,17 +31,7 @@
   --paddingHor-table: clamp(0.8rem, 1.0rem + 1vw, 4.0rem);
 }
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+
 body {
   background: linear-gradient(189.96deg, #104656 -0.24%, #022945 100.24%);
   background-size: 200% 200%;
@@ -121,7 +111,7 @@ header .input-space #input-search {
   transition: all .5s;
 }
 
-.sr-only {  /* classe feita para esconder a label de forma que o leitor de tela aonda o encontre*/
+.sr-only {  /* classe feita para esconder a label de forma que o leitor de tela ainda o encontre*/
   position: absolute;
   width: 1px;
   height: 1px;
@@ -135,12 +125,16 @@ header .input-space #input-search {
 table {
   border-collapse: collapse;
   font-size: var(--fs-table);
+  max-height: 50.0rem;
+  display: flex;
+  flex-direction: column;
 }
 
 thead th{
   background: var(--bg-thead);
   text-align: left;
   padding: var(--paddingVert-table) var(--paddingHor-table);
+  width: 100%;
 }
 
 thead th:first-child {
@@ -150,6 +144,28 @@ thead th:first-child {
 thead th:last-child {
   border-top-right-radius: .5rem;
   text-align: center;
+}
+
+tbody {
+  display: flex;
+  flex-direction: column;
+  overflow-y: overlay;
+}
+
+tbody::-webkit-scrollbar {
+  appearance: none;
+}
+
+tbody::-webkit-scrollbar-thumb {
+  background: var(--color-borderTableAndScroll);
+  border-radius: 20px;
+  width: .1rem;
+  background-clip: padding-box; /*para as bordas ficarem transparentes e com isso dar a impressão que tem uma margem nos lados da borda*/
+  border: .8rem solid rgba(234, 79, 79, 0);
+}
+
+tbody::-webkit-scrollbar-thumb:hover {
+  background-color: #6cb5c6;
 }
 
 tbody .user {
@@ -174,6 +190,7 @@ tbody .user a p {
 tbody td{
   text-align: left;
   padding: var(--paddingVert-table) var(--paddingHor-table);
+  width: 100%;
 }
 
 tbody td:last-child {
@@ -182,7 +199,6 @@ tbody td:last-child {
 
 tbody tr:nth-child(even) {
   background: var(--bg-someRows);
-  border-radius: 0rem 0rem .5rem .5rem;
 }
 
 tbody tr:nth-child(odd) {
@@ -200,17 +216,35 @@ tbody tr:nth-child(odd) {
   transition: all .5s;
 }
 
+.no_favorites {
+  height: 40.0rem;
+}
+
+.no_favorites td{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3.0rem;
+  padding: 0 1.0rem;
+  background-color: #03303b;
+  font-family: var(--ff-secondary);
+  font-size: var(--fs-emptyTable);
+  width: 100%;
+  height: 100%;
+}
+
 footer {
   padding: 2.0rem;
 }
 
 footer img {
-  width: 4.0rem;
+  width: 6.0rem;
 }
 
 @media (min-width: 650px){
   #app {
-    padding-top: 12.0rem;
+    padding-top: 9.0rem;
     
   }
   header {
@@ -219,5 +253,17 @@ footer img {
   }
   .input-space {
     flex-direction: row;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
