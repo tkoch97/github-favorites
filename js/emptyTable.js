@@ -5,7 +5,7 @@ export function createEmptyTable() {
   // Adicionando conteúdo HTML no trEmptyable
   trEmptytable.innerHTML = `
     <td class="no_favorites">
-      <img src="/assets/nonefavoritesicon.svg" alt="star img">
+      <img src="./assets/nonefavoritesicon.svg" alt="star img">
       <p>No Favorites Yet</p>
     </td>
     `
