@@ -77,7 +77,16 @@ export class FavoritesView extends Favorites {
 
     this.update()
     this.onAddFavorite()
+    // document.addEventListener('keydown', this.onAddFavoriteKeydown)
+    // this.onAddFavoriteKeydown()
   }
+
+  // onAddFavoriteKeydown(enter) {
+  //   // const inputSearch = this.root.querySelector('.input-space #input-search')
+  //   if (enter.key == 'Enter') {
+  //     onAddFavorite()
+  //   }
+  // }
 
   onAddFavorite() {
     const favoriteButton = this.root.querySelector('.input-space .favorite-button')
